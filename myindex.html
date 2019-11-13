@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Test Drag and Drop</title>
+  <style>
+    h1 {
+      text-align:center;
+    }
+
+
+    .box-object {
+      width:35vw;
+      margin: 5px auto;
+      padding: 0 20px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 3px;
+      background:orangered;
+      color: white;
+      list-style: none;
+    }
+
+    .drag-active {
+      background: transparent;
+      color: transparent;
+      border: 1px solid #4ca1af;
+    }
+
+    span.drag-active {
+      background: transparent;
+      color: transparent;
+    }
+  
+  </style>
+</head>
+<body>
+  <h1>Some testing of drag and drop</h1>
+    <div class="box-object" name="order-0">Mon premier élément</div>
+    <div class="box-object" name="order-1">Mon deuxième élément</div>
+    <div class="box-object" name="order-2">Mon troisième élément</div>
+
+  <script>
+    let setDraggableElelements = (className) => {
+      let elementsDraggable = document.querySelectorAll(className);
+      elementsDraggable.forEach((element,index, array ) => {
+        element.setAttribute('draggable', true);
+        element.set
+        const listOfDraggable = array ;
+        console.log(element.getAttribute('name'));
+        element.ondrag = handleDrag;
+        element.ondragend = handleDrop;
+      })
+    };
+
+    function handleDrag(item) {
+      const selectedItem = item.target ;
+      const  x = event.clientX ;
+      const  y = event.clientY ;
+      selectedItem.classList.add('drag-active');
+   
+
+      let swapItem = document.elementFromPoint(x, y) === null ? selectedItem : document.elementFromPoint(x, y);
+      swapItem = swapItem !== selectedItem.nextSibling ? swapItem : swapItem.nextSibling;
+      listOfDraggable.insertBefore(selectedItem, swapItem);
+      console.log(swapItem);
+    }
+
+    function handleDrop(item) {
+      console.log("dropping");
+      console.log(item.target);
+      const selectedItem = item.target ;
+
+      selectedItem.classList.remove('drag-active');
+    }
+
+    
+    (()=> {setDraggableElelements('.box-object')})();
+  </script>
+  
+</body>
+</html>
