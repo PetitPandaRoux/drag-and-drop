@@ -12,8 +12,6 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-
-/* Required to make elements draggable in old WebKit */
     -khtml-user-drag: element;
     -webkit-user-drag: element;
   }
@@ -56,6 +54,7 @@
     -o-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
   }
+
   </style>
 </head>
 
@@ -94,8 +93,9 @@ let handleDragEnter = (e) => {
 };
 
 let handleDragOver = (e) => {
-  e.preventDefault;
+  e.preventDefault();
   e.dataTransfer.dropEffet = 'move';
+  return false;
 }
 
 let handleDragLeave = (e) => {
@@ -104,6 +104,19 @@ let handleDragLeave = (e) => {
 
 let handleDrop = (e) => {
   console.log('Drop');
+  let listItems = document.querySelectorAll('.item');
+  let elementDraggedOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
+  let elementDraggedNameValue = dragSrcEl.getAttribute("name");
+  let elementTargetOrderId = parseInt(e.target.getAttribute("order-id"));
+  let elementTargetNameValue = e.target.getAttribute("name");
+  let tempThis = e.target ;
+  console.log(elementDraggedNameValue);
+  console.log(elementTargetNameValue);
+
+  //Si on l'a reposé au même endroit
+  if (dragSrcEl != e.target) {
+    function makeNewOrderIds(e.target) {
+  }
 }
 
 let handleDragEnd = (e) => {
@@ -117,13 +130,11 @@ let handleDragEnd = (e) => {
 
 
 function handleDrope(e) {
-  console.log('Drop');
-  let listItems = document.querySelectorAll('.item');
-  console.log(listItems);
-  console.log(this);
-  //e.stopPropagation(); // stops the browser from redirecting.
-  dragSrcOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
 
+  let listItems = document.querySelectorAll('.item');
+  e.stopPropagation(); // stops the browser from redirecting.
+
+  dragSrcOrderId = parseInt(dragSrcEl.getAttribute("order-id")); // Here we capture the value of the attribute of the dragging element
   dragTargetOrderId = parseInt(this.getAttribute("order-id"));
   var tempThis = this;
   // Don't do anything if dropping the same column we're dragging.

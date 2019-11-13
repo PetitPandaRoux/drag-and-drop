@@ -16,8 +16,6 @@
 
 user-select: none;
 
-/* Required to make elements draggable in old WebKit */
-
 -khtml-user-drag: element;
 
 -webkit-user-drag: element;
@@ -195,7 +193,6 @@ function handleDrop(e) {
 
     dragSrcEl.classList.remove("dragStartClass");
     return false;
-
   }
 
 };
