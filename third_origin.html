@@ -154,14 +154,15 @@ function handleDrop(e) {
   // && ((Math.abs(dragSrcOrderId - dragTargetOrderId)) != 1)
   if (dragSrcEl != this) {
     // Set the source column's HTML to the HTML of the column we dropped on.
-    var tempThis = this;
+    //var tempThis = this;
 
     function makeNewOrderIds(tempThis) {
       // check if up or down movement
       console.log("neworder");
-      dragSrcEl.setAttribute("order-id", dragTargetOrderId);
-      tempThis.setAttribute("order-id", dragTargetOrderId);
-
+      //dragSrcEl.setAttribute("order-id", dragTargetOrderId);
+      //tempThis.setAttribute("order-id", dragTargetOrderId);
+      console.log(dragSrcEl);
+      console.log(tempThis);
       //  find divs between old and new location and set new ids - different in up or down movement (if else)
       if (dragSrcOrderId < dragTargetOrderId) {
         for (i = dragSrcOrderId + 1; i < dragTargetOrderId; i++) {
@@ -179,12 +180,12 @@ function handleDrop(e) {
       }
 
     };
+
     makeNewOrderIds(tempThis);
-
-
+    reOrder(listItems);
     dragSrcEl.classList.remove("dragStartClass");
 
-    reOrder(listItems);
+
 
 
 

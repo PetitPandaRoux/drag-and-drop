@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'index')}"
+>
+  <body>
+    <div class="wrapper soql-interface">
+      <div class="inner">
+        <form
+          action="#"
+          th:action="@{/scenarioOperation}"
+          th:object="${scenario}"
+          method="POST"
+        >
+          <h3>Scenarios</h3>
+          <div class="box scenario draggable">
+            <div class="inner">
+              <div class="form-group" style="display:none;">
+                <label for="ipt-scenario-id">Scenario id -> display none and blocked</label>
+                <input
+                  type="text"
+                  th:field="*{id}"
+                  class="form-control"
+                  id="ipt-scenario-id"
+                  placeholder="Scenario id"
+                />
+              </div>
+              <div class="form-group">
+                <label for="ipt-scenario-name">Scenario name</label>
+                <input
+                  type="text"
+                  th:field="*{name}"
+                  class="form-control"
+                  id="ipt-scenario-name"
+                  aria-describedby="emailHelp"
+                  placeholder="Scenario name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="ipt-scenario-desc">Scenario description</label>
+                <input
+                  type="text"
+                  th:field="*{description}"
+                  class="form-control"
+                  id="ipt-scenario-desc"
+                  placeholder="Scenario description"
+                />
+              </div>
+            </div>
+          </div>
+          <h3>Queries</h3>
+            <div id="listQueries">
+                <div class="box object" th:each="query,queryStat : *{queries}" >
+                    <div class="form-group" style="display:none;">
+                        <label for="ipt-object-name-query">Query id -> display none and blocked</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="ipt-object-id-query"
+                                placeholder="Id Query"
+                                th:field="*{queries[__${queryStat.index}__].id}"
+                                th:errorclass="fieldError"
+                        />
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label for="ipt-object-order-query">Query order -> display none and blocked</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="ipt-object-order-query"
+                                placeholder="Order Query"
+                                th:field="*{queries[__${queryStat.index}__].order}"
+                                th:errorclass="fieldError"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="ipt-object-name-query">Object NameQuery</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="ipt-object-name-query"
+                                placeholder="Object NameQuery"
+                                th:field="*{queries[__${queryStat.index}__].objectName}"
+                                th:errorclass="fieldError"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="ipt-object-external-id">External Id</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="ipt-object-external-id"
+                                placeholder="External Id"
+                                th:field="*{queries[__${queryStat.index}__].externalId}"
+                                th:errorclass="fieldError"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="ipt-object-soqlquery">SOQL Query</label>
+                        <textarea
+                                class="form-control"
+                                id="ipt-object-soqlquery"
+                                rows="3"
+                                placeholder="SOQL Query"
+                                th:field="*{queries[__${queryStat.index}__].SOQLQuery}"
+                                th:errorclass="fieldError"
+                        ></textarea>
+                    </div>
+                    <button
+                            type="submit"
+                            name="removeQuery"
+                            th:value="${queryStat.index}"
+                            class="btn-remove"
+                    >
+                        <svg width="16px" height="18px" viewBox="0 0 16 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="FontAwesome" font-size="20" font-weight="normal">
+                                <g id="Desktop-Copy-9" transform="translate(-798.000000, -255.000000)" fill="#333333">
+                                    <text id="">
+                                        <tspan x="798" y="271"></tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+          <div class="button-wrap-add">
+              <button type="submit" name="addQuery" class="btn btn-primary btn-add">
+                  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="FontAwesome" font-size="30" font-weight="normal">
+                        <g id="Desktop-Copy-6" transform="translate(-502.000000, -1012.000000)" fill="#FFFFFF">
+                            <text id="plus---FontAwesome">
+                                <tspan x="502" y="1036"></tspan>
+                            </text>
+                        </g>
+                    </g>
+                  </svg>
+              </button>
+          </div>
+          <div class="button-wrap">
+              <button type="submit" id="submitButton" class="btn btn-primary btn-lg" name="saveScenario">Save</button>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

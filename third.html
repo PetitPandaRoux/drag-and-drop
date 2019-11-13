@@ -66,6 +66,7 @@
     <div class="item" draggable="true" name="order-4">4</div>
     <div class="item" draggable="true" name="order-5">5</div>
     <div class="item" draggable="true" name="order-6">6</div>
+
   </div>
 
   <script>
@@ -105,18 +106,46 @@ let handleDragLeave = (e) => {
 let handleDrop = (e) => {
   console.log('Drop');
   let listItems = document.querySelectorAll('.item');
-  let elementDraggedOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
-  let elementDraggedNameValue = dragSrcEl.getAttribute("name");
-  let elementTargetOrderId = parseInt(e.target.getAttribute("order-id"));
-  let elementTargetNameValue = e.target.getAttribute("name");
-  let tempThis = e.target ;
-  console.log(elementDraggedNameValue);
-  console.log(elementTargetNameValue);
+  let dragSourceOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
+  let dragNameValue = dragSrcEl.getAttribute("name");
+  let targetOrderId = parseInt(e.target.getAttribute("order-id"));
+  let targetNameValue = e.target.getAttribute("name");
+  console.log(dragNameValue);
+  console.log(targetNameValue);
 
-  //Si on l'a reposé au même endroit
+  //Si on l'a reposé au même endroit on ne fait rien
+  /**
+  TODO quelques cas extrême :
+    - Si le e.target est le dernier élément
+    - Si le e.target n'est qu'à un de distance de l'élément source
+    - Si le e.target est le premier élément  
+    */
   if (dragSrcEl != e.target) {
-    function makeNewOrderIds(e.target) {
+    dragSrcEl.setAttribute("order-id", targetOrderId);
+    e.target.setAttribute("order-id", targetOrderId);
+
+    if (dragSourceOrderId < targetOrderId) {
+        for (i = dragSourceOrderId + 1; i < targetOrderId; i++) {
+          listItems[i].setAttribute("order-id", i - 1);
+          // set new id src
+          dragSrcEl.setAttribute("order-id", targetOrderId - 1);
+        }
+    } else {
+      for (i = targetOrderId; i < dragSourceOrderId; i++) {
+        listItems[i].setAttribute("order-id", i + 1);
+        // set new id src
+        dragSrcEl.setAttribute("order-id", targetOrderId);
+      }
+    }
+
+    dragSrcEl.classList.remove("dragStartClass");
+    reOrder(listItems);
+  } else {
+    dragSrcEl.classList.remove("dragStartClass");
+    return false;
   }
+
+
 }
 
 let handleDragEnd = (e) => {
@@ -128,52 +157,6 @@ let handleDragEnd = (e) => {
   e.target.classList.remove("drag-active");
 }
 
-
-function handleDrope(e) {
-
-  let listItems = document.querySelectorAll('.item');
-  e.stopPropagation(); // stops the browser from redirecting.
-
-  dragSrcOrderId = parseInt(dragSrcEl.getAttribute("order-id")); // Here we capture the value of the attribute of the dragging element
-  dragTargetOrderId = parseInt(this.getAttribute("order-id"));
-  var tempThis = this;
-  // Don't do anything if dropping the same column we're dragging.
-  // and
-  // check if only one difference and then do not execute
-  // && ((Math.abs(dragSrcOrderId - dragTargetOrderId)) != 1)
-  if (dragSrcEl != this) {
-    // Set the source column's HTML to the HTML of the column we dropped on.
-    var tempThis = this;
-
-    function makeNewOrderIds(tempThis) {
-      // check if up or down movement
-      dragSrcEl.setAttribute("order-id", dragTargetOrderId);
-      tempThis.setAttribute("order-id", dragTargetOrderId);
-
-      //  find divs between old and new location and set new ids - different in up or down movement (if else)
-      if (dragSrcOrderId < dragTargetOrderId) {
-        for (i = dragSrcOrderId + 1; i < dragTargetOrderId; i++) {
-          listItems[i].setAttribute("order-id", i - 1);
-          // set new id src
-          dragSrcEl.setAttribute("order-id", dragTargetOrderId - 1);
-        }
-      } else {
-        for (i = dragTargetOrderId; i < dragSrcOrderId; i++) {
-          listItems[i].setAttribute("order-id", i + 1);
-          // set new id src
-          dragSrcEl.setAttribute("order-id", dragTargetOrderId);
-        }
-      }
-    };
-    makeNewOrderIds(tempThis);
-    dragSrcEl.classList.remove("dragStartClass");
-    reOrder(listItems);
-  } else {
-    dragSrcEl.classList.remove("dragStartClass");
-    return false;
-  }
-
-};
 
 
 allItems.forEach((element, index) => {
@@ -190,7 +173,7 @@ function reOrder(listItems) {
 
   var tempListItems = listItems;
   tempListItems = Array.prototype.slice.call(tempListItems, 0);
-
+  console.log(tempListItems);
   tempListItems.sort(function(a, b) {
     return a.getAttribute("order-id") - b.getAttribute("order-id");
   });
