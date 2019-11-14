@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  /* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.column {
+    height: 100px;
+    width: 100px;
+    float: left;
+    border: 2px solid #666666;
+    background-color: #ccc;
+    margin-right: 5px;
+    -webkit-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px #000;
+    -ms-box-shadow: inset 0 0 3px #000;
+    box-shadow: inset 0 0 3px #000;
+    text-align: center;
+    cursor: move;
+}
+.column header {
+    color: #fff;
+    text-shadow: #000 0 1px;
+    box-shadow: 5px;
+    padding: 5px;
+    background: -moz-linear-gradient(left center, rgb(0, 0, 0), rgb(79, 79, 79), rgb(21, 21, 21));
+    background: -webkit-gradient(linear, left top, right top, color-stop(0, rgb(0, 0, 0)), color-stop(0.50, rgb(79, 79, 79)), color-stop(1, rgb(21, 21, 21)));
+    background: -webkit-linear-gradient(left center, rgb(0, 0, 0), rgb(79, 79, 79), rgb(21, 21, 21));
+    background: -ms-linear-gradient(left center, rgb(0, 0, 0), rgb(79, 79, 79), rgb(21, 21, 21));
+    border-bottom: 1px solid #ddd;
+    -webkit-border-top-left-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -ms-border-radius-topleft: 10px;
+    border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -ms-border-top-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-right-radius: 10px;
+}
+  
+  </style>
+</head>
+<body>
+  <div id="columns-full">
+    <div class="column" draggable="true">
+        <header>A</header>
+        <div class="count" data-col-moves="0"></div>
+    </div>
+    <div class="column" draggable="true">
+        <header>B</header>
+        <div class="count" data-col-moves="0"></div>
+    </div>
+    <div class="column" draggable="true">
+        <header>C</header>
+        <div class="count" data-col-moves="0"></div>
+    </div>
+    <div class="column" draggable="true">
+        <header>D</header>
+        <div class="count" data-col-moves="0"></div>
+    </div>
+</div>
+
+<script>
+  var id_ = 'columns-full';
+  var cols_ = document.querySelectorAll('#' + id_ + ' .column');
+  var dragSrcEl_ = null;
+  this.handleDragStart = function (e) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+      dragSrcEl_ = this;
+      this.classList.add('moving');
+  };
+  this.handleDragOver = function (e) {
+      if (e.preventDefault) {
+          e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+  };
+  this.handleDragEnter = function (e) {
+      this.classList.add('over');
+  };
+  this.handleDragLeave = function (e) {
+      this.classList.remove('over');
+  };
+  this.handleDrop = function (e) {
+      if (e.stopPropagation) {
+          e.stopPropagation();
+      }
+      if (dragSrcEl_ != this) {
+          dragSrcEl_.innerHTML = this.innerHTML;
+          this.innerHTML = e.dataTransfer.getData('text/html');
+          var count = this.querySelector('.count');
+          var newCount = parseInt(count.getAttribute('data-col-moves')) + 1;
+          count.setAttribute('data-col-moves', newCount);
+          count.textContent = 'moves: ' + newCount;
+      }
+      return false;
+  };
+  this.handleDragEnd = function (e) {
+      [].forEach.call(cols_, function (col) {
+          col.classList.remove('over');
+          col.classList.remove('moving');
+      });
+  };
+  [].forEach.call(cols_, function (col) {
+      col.setAttribute('draggable', 'true');
+      col.addEventListener('dragstart', this.handleDragStart, false);
+      col.addEventListener('dragenter', this.handleDragEnter, false);
+      col.addEventListener('dragover', this.handleDragOver, false);
+      col.addEventListener('dragleave', this.handleDragLeave, false);
+      col.addEventListener('drop', this.handleDrop, false);
+      col.addEventListener('dragend', this.handleDragEnd, false);
+  });
+</script>
+</body>
+</html>
