@@ -205,7 +205,6 @@ function reOrder(listItems) {
     return a.getAttribute("order-id") - b.getAttribute("order-id");
   });
 
-  var parent = document.getElementById('checklist');
   parent.innerHTML = "";
 
   for (var i = 0, l = tempListItems.length; i < l; i++) {

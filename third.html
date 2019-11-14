@@ -97,19 +97,6 @@
       </div>
     </div>
     <div class="item" draggable="true" name="order-2">
-      TEXTE 2
-    </div>
-    <div class="item" draggable="true" name="order-3">
-      TEXTE 3
-    </div>
-   
-    <div class="item" draggable="true" name="order-5">
-      TEXTE 5
-    </div>
-    <div class="item" draggable="true" name="order-6">
-      TEXTE 6
-    </div>
-    <div class="item" draggable="true" name="order-7">
       <div class="form-group" style="display:none;">
         <label for="ipt-object-name-query">Query id -> display none and blocked</label>
         <input
@@ -144,7 +131,7 @@
         />
       </div>
     </div>
-    <div class="item" draggable="true" name="order-8">
+    <div class="item" draggable="true" name="order-4">
       <div class="form-group" style="display:none;">
         <label for="ipt-object-name-query">Query id -> display none and blocked</label>
         <input
@@ -179,6 +166,41 @@
         />
       </div>
     </div>
+    <div class="item" draggable="true" name="order-3">
+        <div class="form-group" style="display:none;">
+          <label for="ipt-object-name-query">Query id -> display none and blocked</label>
+          <input
+                  type="text"
+                  class="form-control"
+                  id="ipt-object-id-query"
+                  placeholder="Id Query"
+                  name="queries[0].id"
+                  value="180"
+          />
+        </div>
+        <div class="form-group" style="display:none;">
+          <label for="ipt-object-order-query">Query order -> display none and blocked</label>
+          <input
+                  type="text"
+                  class="form-control"
+                  id="ipt-object-order-query"
+                  placeholder="Order Query"
+                  name="queries[0].order"
+                  value="4"
+          />
+        </div>
+        <div class="form-group">
+          <label for="ipt-object-name-query">Object NameQuery</label>
+          <input
+                  type="text"
+                  class="form-control"
+                  id="ipt-object-name-query"
+                  placeholder="Object NameQuery"
+                  name="queries[0].objectName"
+                  value="Ecrivain__c"
+          />
+        </div>
+      </div>
   </div>
 
   <script>
@@ -300,7 +322,6 @@
         return a.getAttribute("order-id") - b.getAttribute("order-id");
       });
     
-      var parent = document.getElementById('checklist');
       parent.innerHTML = "";
     
       for (var i = 0, l = tempListItems.length; i < l; i++) {
