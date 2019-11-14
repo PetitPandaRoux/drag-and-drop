@@ -76,6 +76,7 @@
   var id_ = 'columns-full';
   var cols_ = document.querySelectorAll('#' + id_ + ' .column');
   var dragSrcEl_ = null;
+  
   this.handleDragStart = function (e) {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/html', this.innerHTML);
