@@ -242,16 +242,15 @@
       if (e.stopPropagation) {
         e.stopPropagation();
       }
-      console.log(e);
     
       let dragSourceOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
       let dragNameValue = dragSrcEl.getAttribute("name");
       let targetOrderId = parseInt(e.currentTarget.getAttribute("order-id"));
       let targetNameValue = e.target.getAttribute("name");
       console.log('DragNameValue');
-      console.log(dragNameValue);
+      console.log(dragSrcEl);
       console.log('targetgNameValue');
-      console.log(targetNameValue);
+      console.log(e.currentTarget);
     
       //Si on l'a reposé au même endroit on ne fait rien
       /**
@@ -262,36 +261,39 @@
         */
       if (dragSrcEl != e.target) {
         if (Math.abs(dragSourceOrderId - targetOrderId ) == 1 ) {
+            console.log('switch');
             dragSrcEl.innerHTML = e.currentTarget.innerHTML;
             e.currentTarget.innerHTML = e.dataTransfer.getData('text/html');
-            //dragSrcEl.setAttribute("order-id", targetOrderId);
-            //e.target.setAttribute("order-id", dragSourceOrderId);
-        } }/*else {
+        } else {
           dragSrcEl.setAttribute("order-id", targetOrderId);
-          e.target.setAttribute("order-id", targetOrderId);
+          e.currentTarget.setAttribute("order-id", targetOrderId);
+          
     
           if (dragSourceOrderId < targetOrderId) {
-              for (i = dragSourceOrderId + 1; i < targetOrderId; i++) {
-                listItems[i].setAttribute("order-id", i - 1);
-                // set new id src
-                dragSrcEl.setAttribute("order-id", targetOrderId - 1);
-              }
+            console.log('move-downward')
+            for (i = dragSourceOrderId + 1; i < targetOrderId; i++) {
+              listItems[i].setAttribute("order-id", i - 1);
+              // set new id src
+              dragSrcEl.setAttribute("order-id", targetOrderId - 1);
+            }
           } else {
+            console.log('move-upward')
             for (i = targetOrderId; i < dragSourceOrderId; i++) {
               listItems[i].setAttribute("order-id", i + 1);
               // set new id src
               dragSrcEl.setAttribute("order-id", targetOrderId);
             }
-          }*/
-    
-          dragSrcEl.classList.remove("dragStartClass");
-          reOrder(listItems);
           }
+        }
     
-      /*} else {
+      dragSrcEl.classList.remove("dragStartClass");
+      reOrder(listItems);
+
+      } else {
         dragSrcEl.classList.remove("dragStartClass");
         return false;
-      }*/
+      }
+    }
     
     let handleDragEnd = (e) => {
       for (let i = 0; i < allItems.length; i++) {
