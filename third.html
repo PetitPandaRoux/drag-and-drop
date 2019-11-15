@@ -247,10 +247,10 @@
 
       let targetOrderId = parseInt(e.currentTarget.getAttribute("order-id"));
       let targetNameValue = e.target.getAttribute("name");
-      console.log(e.currentTarget.children.nextsibling);
+      console.log(e.currentTarget.children[1].children[1].getAttribute("value"));
       console.log('DragNameValue');
       console.log(dragSrcEl);
-      console.log('targetgNameValue');
+      console.log('Target height');
       console.log(e.currentTarget);
     
       //Si on l'a reposé au même endroit on ne fait rien
