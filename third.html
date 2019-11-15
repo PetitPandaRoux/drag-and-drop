@@ -207,7 +207,6 @@
     // Origin Script: https://codereview.stackexchange.com/questions/127271/javascript-drag-and-drop-sortable-list
     let allItems = document.querySelectorAll('.item');
     let containerItems = document.querySelector('#checklist');
-    console.log(containerItems);
     let dragSrcEl = null;
     
     let handleDragStart = (e) => {
@@ -245,8 +244,10 @@
     
       let dragSourceOrderId = parseInt(dragSrcEl.getAttribute("order-id"));
       let dragNameValue = dragSrcEl.getAttribute("name");
+
       let targetOrderId = parseInt(e.currentTarget.getAttribute("order-id"));
       let targetNameValue = e.target.getAttribute("name");
+      console.log(e.currentTarget.children.nextsibling);
       console.log('DragNameValue');
       console.log(dragSrcEl);
       console.log('targetgNameValue');
@@ -267,7 +268,6 @@
         } else {
           dragSrcEl.setAttribute("order-id", targetOrderId);
           e.currentTarget.setAttribute("order-id", targetOrderId);
-          
     
           if (dragSourceOrderId < targetOrderId) {
             console.log('move-downward')
